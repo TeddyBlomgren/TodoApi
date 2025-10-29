@@ -14,9 +14,11 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+string reactPolicy = "ReactCorsPolicy";
+
 builder.Services.AddCors(options =>
     {
-        options.AddPolicy("ReactCorsPolicy", policy =>
+        options.AddPolicy(reactPolicy, policy =>
         {
             policy.WithOrigins("Http://localhost:3000")
             .AllowAnyHeader()
@@ -27,7 +29,7 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-app.UseCors("ReactCorsPolicy");
+app.UseCors(reactPolicy);
 
 
 if (app.Environment.IsDevelopment())
