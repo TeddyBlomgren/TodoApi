@@ -1,47 +1,69 @@
 import { useEffect, useState } from "react";
 import "./App.css";
+import Form from "./components/Form";
+import NewComponent from "./components/NewComponent";
 
 function App() {
   const [darkMode, setDarkMode] = useState(false);
-
-  // Apply or remove the 'dark' class on the <html> element
+    
+  // Apply or remove dark mode on <html>
   useEffect(() => {
-    if (darkMode) {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
+    document.documentElement.classList.toggle("dark", darkMode);
   }, [darkMode]);
 
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 transition-colors duration-300">
-      <div className="flex justify-end p-4">
+    <div
+      className={`
+        min-h-screen transition-colors duration-700
+        flex flex-col items-center justify-center
+        bg-gradient-to-br 
+        ${darkMode
+          ? "from-gray-900 via-indigo-950 to-fuchsia-900"
+          : "from-fuchsia-400 via-indigo-400 to-blue-400"
+        }
+        text-gray-900 dark:text-white
+      `}
+    >
+      {/* Floating animated gradient orbs */}
+      <div className="absolute top-20 left-20 w-48 h-48 bg-fuchsia-400/40 rounded-full blur-3xl animate-pulse"></div>
+      <div className="absolute bottom-16 right-16 w-56 h-56 bg-indigo-400/30 rounded-full blur-3xl animate-pulse"></div>
+
+      {/* Header */}
+      <header className="w-full flex justify-between items-center p-6 z-10">
+        <h1 className="text-3xl font-extrabold bg-gradient-to-r from-yellow-300 via-pink-400 to-fuchsia-600 bg-clip-text text-transparent drop-shadow-md">
+          Grupp 6 Todo App 🚀
+        </h1>
+
         <button
           onClick={() => setDarkMode(!darkMode)}
-          className="px-4 py-2 bg-indigo-500 text-white rounded-md shadow hover:bg-indigo-600 transition"
+          className={`
+            px-5 py-2 font-semibold rounded-lg shadow-md transition-all 
+            border border-white/20 backdrop-blur-sm
+            ${darkMode
+              ? "bg-gradient-to-r from-indigo-900 to-purple-700 hover:from-indigo-800 hover:to-purple-600"
+              : "bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-400 hover:to-indigo-400"
+            }
+          `}
         >
-          {darkMode ? "Light Mode" : "Dark Mode"}
+          {darkMode ? "🌞 Light Mode" : "🌙 Dark Mode"}
         </button>
-      </div>
+      </header>
 
-      <div className="bg-white dark:bg-gray-800 m-4 rounded-lg px-6 py-8 ring shadow-xl ring-gray-900/5">
-        <div>
-          <span className="inline-flex items-center justify-center rounded-md bg-indigo-500 p-2 shadow-lg">
-            <h1 className="bg-gradient text-white p-4 text-2xl font-bold">
-              Grupp sex todo app
-            </h1>
-          </span>
-        </div>
+      {/* Main Content */}
+      <main className="z-10 w-full flex flex-col items-center px-4 md:px-0">
+        <Form />
 
-        <h3 className="text-gray-900 dark:text-white mt-5 text-base font-medium tracking-tight">
-          Writes upside-down
-        </h3>
+        {/* Example Card */}
+        <NewComponent  
+        title={"helllo world"}
+        desc={"Im describing...."}
+        />
+      </main>
 
-        <p className="text-gray-500 dark:text-gray-400 mt-2 text-sm">
-          The Zero Gravity Pen can be used to write in any orientation,
-          including upside-down. It even works in outer space.
-        </p>
-      </div>
+      {/* Footer */}
+      <footer className="z-10 py-4 text-sm text-gray-700 dark:text-gray-300 opacity-80">
+        © {new Date().getFullYear()} Grupp 6 — Built with ❤️ using React + Tailwind
+      </footer>
     </div>
   );
 }
