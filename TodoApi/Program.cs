@@ -4,7 +4,7 @@ using TodoApi.Data;
 var builder = WebApplication.CreateBuilder(args);
 
 var connectionString = builder.Configuration.GetConnectionString("ToDoApiContext");
-builder.Services.AddDbContext<ToDoApiContext>(options =>
+builder.Services.AddDbContext<DbContext>(options =>
     options.UseSqlServer(connectionString));
 
 // Add services to the container.
