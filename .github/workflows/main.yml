@@ -57,6 +57,10 @@ jobs:
         if: ${{ success() }}
         run: echo "🎉 Projektet byggdes utan fel!"
 
+      - name: ❌ Bygget misslyckades
+        if: ${{ failure() }}
+        run: echo "🚨 Något gick fel under bygget."
+
 
   count-lines:
     runs-on: ubuntu-latest
