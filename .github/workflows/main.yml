@@ -34,9 +34,8 @@ jobs:
           echo  "🔢 Run Number: ${{ github.run_number }}"
           echo  "🌿 Branch: ${GITHUB_REF#refs/heads/}"
           echo "📊 Lines of Code: $(find . \
-                  -type d \( -name node_modules -o -name .git -o -name dist -o -name bin -o -name obj \) -prune -false -o \
-                  -type f \( -name "*.cs" -o -name "*.ts" -o -name "*.tsx" \) \
-                  -exec cat {} + | wc -l)"
+           -type d ( -name node_modules -o -name .git -o -name dist -o -name bin -o -name obj ) -prune -o \
+           -type f ( -name ".cs" -o -name ".ts" -o -name "*.tsx" ) -print0 | xargs -0 cat | wc -l)"
           
       - *echo-template
       
