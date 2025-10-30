@@ -16,12 +16,12 @@ jobs:
     
     steps:
       - name: Start build process
-        run: echo "Build process started..."
+        run: Write-Output "Build process started..."
 
       - &echo-template
         name: Echo template
-        run: echo "this is a reusable step"
-        shell: bash
+        run: Write-Output "this is a reusable step"
+        shell: powershell
 
     
       - name: 🖥️ Show GitHub Context
