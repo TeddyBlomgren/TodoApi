@@ -66,6 +66,31 @@ jobs:
           -type f \( -name "*.cs" -o -name "*.ts" -o -name "*.tsx" \) \
           -exec cat {} + | wc -l)"
 
+
+  count-lines-codestats:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v3
+
+      - name: 🧰 Setup .NET SDK
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: 🛠 Build and pack codestats CLI
+        run: |
+          cd codestats
+          dotnet pack -c Release
+
+      - name: 📦 Install codestats CLI globally
+        run: dotnet tool install --global codestats --add-source ./codestats/bin/Release --version 0.0.2-pre
+
+      - name: 📊 Run codestats CLI
+        run: codestats cl -t cs,ts,tsx
+
+
       
 
   
