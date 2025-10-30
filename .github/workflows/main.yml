@@ -11,33 +11,32 @@ on:
 
 jobs:
   display-info:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     
     steps:
       - name: Start build process
-        run: Write-Output "Build process started..."
+        run: echo "Build process started..."
 
       - &echo-template
         name: Echo template
-        run: Write-Output "this is a reusable step"
-        shell: powershell
+        run: echo "this is a reusable step"
+        shell: bash
 
     
       - name: 🖥️ Show GitHub Context
         run: |
-          Write-Output  "🖥️ Runner OS: $RUNNER_OS"
-          Write-Output  "📂 Repository: ${{ github.repository }}"
-          Write-Output  "🔧 Workflow: ${{ github.workflow }}"
-          Write-Output  "🚀 Triggered by: ${{ github.event_name }}"
-          Write-Output  "👤 Actor: ${{ github.actor }}"
-          Write-Output  "🔢 Run Number: ${{ github.run_number }}"
-          Write-Output  "🌿 Branch: ${GITHUB_REF#refs/heads/}"
-          $csCount =    Get-ChildItem -Recurse -Include *.cs |
-                        Where-Object { $_.FullName -notmatch '\\node_modules\\|\\bin\\|\\obj\\|\\.git\\|\\dist\\|\\.next\\' } |
-                        Measure-Object | Select-Object -ExpandProperty Count
-                        
-          Write-Output "🌳 C# Files: $csCount"
+          echo "🖥️ Runner OS: $RUNNER_OS"
+          echo "📂 Repository: ${{ github.repository }}"
+          echo "🔧 Workflow: ${{ github.workflow }}"
+          echo  "🚀 Triggered by: ${{ github.event_name }}"
+          echo  "👤 Actor: ${{ github.actor }}"
+          echo  "🔢 Run Number: ${{ github.run_number }}"
+          echo  "🌿 Branch: ${GITHUB_REF#refs/heads/}"
+          echo "📊 Lines of Code: $(find . \
+                  -type d \( -name node_modules -o -name .git -o -name dist -o -name bin -o -name obj \) -prune -false -o \
+                  -type f \( -name "*.cs" -o -name "*.ts" -o -name "*.tsx" \) \
+                  -exec cat {} + | wc -l)"
           
       - *echo-template
       
