@@ -33,9 +33,7 @@ jobs:
           echo  "👤 Actor: ${{ github.actor }}"
           echo  "🔢 Run Number: ${{ github.run_number }}"
           echo  "🌿 Branch: ${GITHUB_REF#refs/heads/}"
-          echo "📊 Lines of Code: $(find . \
-           -type d ( -name node_modules -o -name .git -o -name dist -o -name bin -o -name obj ) -prune -o \
-           -type f ( -name ".cs" -o -name ".ts" -o -name "*.tsx" ) -print0 | xargs -0 cat | wc -l)"
+
           
       - *echo-template
       
@@ -79,21 +77,23 @@ jobs:
         with:
           dotnet-version: '8.0.x'
 
-      - name: 📥 Clone codestats CLI
-        run: git clone https://github.com/n4sser77/codestats.git
+      - name: 📥 Clone codestats CLI to temp folder
+        run: git clone https://github.com/n4sser77/codestats.git /tmp/codestats
 
       - name: 🛠 Build and pack codestats CLI
-        run: |
-          cd codestats
-          dotnet pack -c Release
+        working-directory: /tmp/codestats
+        run: dotnet pack -c Release
 
       - name: 📦 Install codestats CLI globally
-        run: dotnet tool install --global codestats --add-source ./codestats/bin/Release --version 0.0.2-pre
+        run: dotnet tool install --global codestats --add-source /tmp/codestats/bin/Release --version 0.0.2-pre
 
-      - name: 📊 Run codestats CLI
+      - name: 🧹 Remove codestats temp folder before counting
+        run: rm -rf /tmp/codestats
+
+      - name: 📊 Run codestats CLI from repo root
+        working-directory: ${{ github.workspace }}
         run: codestats cl -t cs,ts,tsx
 
-      
 
   
    
