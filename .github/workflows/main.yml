@@ -65,6 +65,16 @@ jobs:
           -type f \( -name "*.cs" -o -name "*.ts" -o -name "*.tsx" \) \
           -exec cat {} + | wc -l)"
 
+      - name: Count .cs files
+        run: |
+          CS_COUNT=$(find . -name "*.cs" | wc -l)
+          echo "📁 Antal .cs-filer: $CS_COUNT"
+
+      - name: Count lines of code in .cs files
+        run: |
+          LINE_COUNT=$(find . -name "*.cs" -exec cat {} + | wc -l)
+          echo "📏 Antal rader C#-kod: $LINE_COUNT"
+
 
   count-lines-codestats:
     runs-on: ubuntu-latest
@@ -94,6 +104,8 @@ jobs:
       - name: 📊 Run codestats CLI from repo root
         working-directory: ${{ github.workspace }}
         run: codestats cl -t cs,ts,tsx
+
+        
 
 
   
