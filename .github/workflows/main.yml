@@ -58,6 +58,7 @@ jobs:
 
     steps:
       - name: Count lines
+        working-directory: ${{ github.workspace }}
         run:  |
           echo "📊 Lines of Code: $(find . \
           -type d \( -name node_modules -o -name .git -o -name dist -o -name bin -o -name obj \) -prune -false -o \
