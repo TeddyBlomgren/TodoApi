@@ -53,6 +53,11 @@ jobs:
         working-directory: ./TodoApi
         run: dotnet build 
 
+      - name: ✅ Bygget lyckades!
+        if: ${{ success() }}
+        run: echo "🎉 Projektet byggdes utan fel!"
+
+
   count-lines:
     runs-on: ubuntu-latest
 
